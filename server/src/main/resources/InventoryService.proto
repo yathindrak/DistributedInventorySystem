@@ -1,0 +1,65 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option java_multiple_files = true;
+package cw2.communication.grpc.generated;
+
+message UpdateQuantityRequest {
+    string id = 1;
+    double quantity = 2;
+    bool isSentByPrimary = 3;
+    bool isSentBySecondary = 4;
+}
+
+message PlaceOrderRequest {
+    string userId = 1;
+    bool isSentByPrimary = 2;
+    bool isSentBySecondary = 3;
+}
+
+message CartRequest {
+    string userId = 1;
+    string id = 2;
+    double quantity = 3;
+    bool isSentByPrimary = 4;
+    bool isSentBySecondary = 5;
+}
+
+message ItemRequest {
+    string id = 2;
+    double quantity = 3;
+    bool isSentByPrimary = 4;
+    bool isSentBySecondary = 5;
+}
+
+message PlaceOrderResponse {
+    string response = 1;
+}
+
+message UpdateQuantityResponse {
+    string response = 1;
+}
+
+message CartResponse {
+    string response = 1;
+}
+
+message GetOrdersResponse {
+    repeated PlaceOrderRequest orders = 1;
+}
+
+message GetItemsResponse {
+    repeated ItemRequest items = 1;
+}
+
+service CartManagerService {
+    rpc addToCart(CartRequest) returns (CartResponse);
+    rpc getItems(google.protobuf.Empty) returns (GetItemsResponse);
+}
+
+service QuantityManagerService {
+    rpc updateQuantity(UpdateQuantityRequest) returns (UpdateQuantityResponse);
+}
+
+service OrderManagerService {
+    rpc placeOrder(PlaceOrderRequest) returns (PlaceOrderResponse);
+}
